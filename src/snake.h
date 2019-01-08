@@ -9,7 +9,6 @@ class CSnake:public CFramedWindow
 {
   vector<CPoint> Body;              //wektor
   CPoint directSnake = CPoint(1, 0);
-  CPoint foodPos;
   CPoint food;
   unsigned int counter = 0;
   bool pause = false;
@@ -21,11 +20,12 @@ public:
   int signpost = 1;
   unsigned int score;
   void start();
+  CPoint foodPos;
   bool flag = false;
   int premium=0;
   CSnake(CRect r, char _c = ' ');
   void Moving(const CPoint&);
-  void MoveSnakeWindow(const CPoint &delta);
+  void ChangeCoord(const CPoint &delta);
   void eatin(CPoint);
   bool handleEvent(int key);
   void paint();

@@ -12,7 +12,7 @@ CSnake::CSnake(CRect r, char _c /*=' '*/):
   CFramedWindow(r, _c)
 {
   beginSet();
-  score = Body.size();
+  score = Body.size()-2;
   foodPos = randCoord();
 }
 
@@ -30,7 +30,7 @@ void CSnake::Moving(const CPoint &value)		//control of Moving
 {
   if( Body.size() == FALSE ) 
   return;
-  for(unsigned int i=Body.size(); i > 0; --i) 
+  for(unsigned int i = Body.size(); i > 0; --i ) 
     if( Body[0].x+value.x == Body[i].x && Body[0].y+value.y == Body[i].y) 
     { 						
 	gameOver = true; 
@@ -42,8 +42,8 @@ void CSnake::Moving(const CPoint &value)		//control of Moving
     else
     Body[i] = Body[i-1];
   
-  Body[0].x = geom.topleft.x + (Body[0].x - geom.topleft.x + value.x) % (geom.size.x -2);    //przejscie
-  if(Body[0].x <= geom.topleft.x) 
+  Body[0].x = geom.topleft.x + (Body[0].x - geom.topleft.x + value.x) % (geom.size.x -2);    //walkin
+  if(Body[0].x <= geom.topleft.x) 							     //walkin throu
 	Body[0].x = geom.topleft.x + geom.size.x-2;
 
   Body[0].y = geom.topleft.y + (Body[0].y - geom.topleft.y + value.y) % (geom.size.y -2);
@@ -51,10 +51,14 @@ void CSnake::Moving(const CPoint &value)		//control of Moving
 	Body[0].y = geom.topleft.y + geom.size.y-2;
 }
 
-void CSnake::MoveSnakeWindow(const CPoint &value)      //movin snake if window change posit.
+
+void CSnake::ChangeCoord(const CPoint &value)      //movin snake if window change posit.
 {
   for( unsigned int i = 0 ; i < Body.size() ; ++i )
     Body[i] += value;
+    
+  foodPos+=value;
+  move(value);
 }
 
 void CSnake::paintSnake()				//drawin snake
@@ -185,24 +189,16 @@ bool CSnake::handleEvent(int key)			  //control game
     switch (key)
       {
       case KEY_UP:
-        MoveSnakeWindow(CPoint (0, -1));                                  
-        move (CPoint (0, -1));
-        foodPos += CPoint(0, -1);
+        ChangeCoord(CPoint (0, -1));                                  
         return true;
       case KEY_DOWN:
-        MoveSnakeWindow(CPoint (0, 1));
-        move (CPoint (0, 1));
-        foodPos += CPoint(0, 1);
+        ChangeCoord(CPoint (0, 1));
         return true;
       case KEY_RIGHT:
-        MoveSnakeWindow(CPoint (1, 0));
-        move (CPoint (1, 0));
-        foodPos += CPoint(1, 0);
+        ChangeCoord(CPoint (1, 0));
         return true;
       case KEY_LEFT:
-        MoveSnakeWindow(CPoint (-1, 0));
-        move (CPoint (-1, 0));
-        foodPos += CPoint(-1, 0);
+        ChangeCoord(CPoint (-1, 0));
         return true;
       case 'p': 
         pause = false;
@@ -272,7 +268,7 @@ void CSnake::KindOfFood()                           //acceleration game by doubl
 void CSnake::displayPoints()
 {
   gotoyx(0,0);
-  printl("points: %d",score-2);
+  printl("points: %d",score);
 
   gotoyx(1,0);
   printl("ping: %d",rand() % 30 + 60);
@@ -293,7 +289,6 @@ CPoint CSnake::randCoord()
   int first = geom.topleft.x + rand() % (geom.size.x-2)+1;
   int second = geom.topleft.y + rand()%(geom.size.y-2)+1;
   food = CPoint( first, second);
-      //if( Body[j].x == first && Body[j].y == second)
       for( unsigned int j = 1 ; j < Body.size() ; ++j )    //avoidin rand food in snake's body
       {							    //works 100%
         if(Body[j].y==second && Body[j].x==first) 
