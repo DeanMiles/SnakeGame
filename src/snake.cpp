@@ -93,7 +93,7 @@ void CSnake::reset()
   gameOver = false;
   menu = true;
   pause = false;
-  signpost = FALSE ;
+  signpost = TRUE ;
   Body.clear();
   beginSet();
   score = Body.size();
@@ -108,7 +108,7 @@ void CSnake::start()
   premium = 2;
   gameOver = false;
   pause = false;
-  signpost = FALSE ;
+  signpost = TRUE ;
   Body.clear();
   beginSet();
   score = Body.size();
