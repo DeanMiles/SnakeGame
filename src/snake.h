@@ -13,7 +13,8 @@ class CSnake:public CFramedWindow
   unsigned int counter = 0;
   bool pause = false;
   bool menu = true;
-  bool gameOver = false;
+  bool Over = false;
+  bool help_press = false;
 
 public:
   int gameSpeed = 16;
@@ -21,12 +22,14 @@ public:
   unsigned int score;
   void start();
   CPoint foodPos;
+  CPoint foodPos_2;
   bool flag = false;
   int premium=0;
   CSnake(CRect r, char _c = ' ');
   void Moving(const CPoint&);
   void ChangeCoord(const CPoint &delta);
   void eatin(CPoint);
+  void eatin_2(CPoint);
   bool handleEvent(int key);
   void paint();
   void options();

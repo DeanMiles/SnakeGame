@@ -2,8 +2,7 @@
 #include "snake.h"
 
 int main ()
-{
-  srand(time(NULL));  
+{ 
   CDesktop d;
   d.insert(new CInputLine (CRect (CPoint (5, 7), CPoint (15, 15))));
   d.insert(new CWindow (CRect (CPoint (2, 3), CPoint (20, 10)), '#'));
