@@ -6,7 +6,7 @@
 #include"screen.h"
 #include "screen.h"
 #include <list>
-
+//AF
 
 CSnake::CSnake(CRect r, char _c /*=' '*/):
   CFramedWindow(r, _c)
@@ -25,6 +25,36 @@ void CSnake::paint()					//main function
   displayPoints();
   //authormode();
   options();
+}
+
+void CSnake::reset()				//reset the game
+{
+  flag = false;
+  premium = 2;
+  Over = false;
+  menu = true;
+  pause = false;
+  signpost = TRUE ;
+  Body.clear();
+  beginSet();
+  score = Body.size();
+  directSnake = CPoint(1, 0);
+  paintSnake();
+}
+
+void CSnake::start()					
+{
+  //flag = false;				  //uncomment if start needs reset 2
+  //gameSpeed = speed_value;
+  //premium = 2;
+  //Over = false;
+  pause = false;
+  signpost = TRUE ;
+  //Body.clear();
+  //beginSet();
+  //score = Body.size();
+  //directSnake = CPoint(1, 0);
+  paintSnake();
 }
 
 void CSnake::Moving(const CPoint &value)		//control of Moving
@@ -72,36 +102,6 @@ void CSnake::paintSnake()				//drawin snake
     gotoyx( Body[i].y, Body[i].x) ;
     printl("+") ;
   }
-}
-
-void CSnake::reset()				//reset the game
-{
-  flag = false;
-  premium = 2;
-  Over = false;
-  menu = true;
-  pause = false;
-  signpost = TRUE ;
-  Body.clear();
-  beginSet();
-  score = Body.size();
-  directSnake = CPoint(1, 0);
-  paintSnake();
-}
-
-void CSnake::start()					
-{
-  //flag = false;				  //uncomment if start needs reset 2
-  //gameSpeed = speed_value;
-  //premium = 2;
-  //Over = false;
-  pause = false;
-  signpost = TRUE ;
-  //Body.clear();
-  //beginSet();
-  //score = Body.size();
-  //directSnake = CPoint(1, 0);
-  paintSnake();
 }
 
 void CSnake::eatin(const CPoint foodXY)             //eatin and randin premium
